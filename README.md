@@ -1,0 +1,5 @@
+#Attachment of Earnings Calculator
+
+Started as an experiment in php about two years ago, revisited it and migrated to a fully javascript version using [Knockout.js](http://knockoutjs.com/)
+
+The calculator returns a deduction figure based on council tax legislation. Deductions are based on both earnings and the number of attachment of earnings orders.
