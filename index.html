@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Attachment of Earnings Calculator</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <form id="calculator">
+            <fieldset>
+                <label for="name">Take home earnings</label>
+                <input type="text" id="earnings" name="earnings" class="form-text" placeholder="£" data-bind="value: wages">
+                <p class="form-help" data-bind="ghost: wages()">Please enter your take home earnings in pounds.</p>
+            </fieldset>
+            <fieldset>
+                <label for="frequency">Frequency</label>
+                    <select id="frequency" name="frequency" data-bind="options: frequencyOptions,  optionsCaption: 'Select...', value: frequency">
+                    </select>
+                    <p class="form-help" data-bind="ghost: frequency()">How often is this amount paid to you?</p>
+            </fieldset>
+            <fieldset>
+                <label for="deductions">Deductions</label>
+                    <select id="deductions" name="deductions" data-bind="options: deductionOptions, optionsCaption: 'Select...', value: deductions">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                    <p class="form-help" data-bind="ghost: deductions()">How many deductions are to be made?</p>
+            </fieldset>
+            <fieldset class="form-actions">
+                <input type="submit" value="Calculate" id="submit" class="button" data-bind="click: calculate">
+            </fieldset>
+        </form>
+        <div class="result" data-bind="fader: !showResult()">
+            <div class="result-data">
+                <p>Your calculation is as follows:</p>
+                <p>Based on £<span data-bind="text: wages()"></span> in wages paid <span data-bind="text: frequency()"></span> and <span data-bind="text: deductions()"></span> liabilty order.</p>
+                <ul data-bind="visible: twoDeductions()">
+                    <li>First Deduction: £<span data-bind="text: firstDeductionOut()"></span></li>
+                    <li>Second Deduction: £<span data-bind="text: secondDeductionOut()"></span></li>
+                </ul>
+                <p>Total monthly deduction £<span data-bind="text: totalDeduction()"></span></p>
+                <input type="submit" value="Try another" id="reset" class="button reset-button" data-bind="click: reset">
+            <div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/jquery.1.8.1.min.js"><\/script>')</script>
+        <script src="js/knockout-2.1.0.js"></script>
+        <script src="js/site.js"></script>
+        <script src="js/aoe.js"></script>
+    </body>
+</html>
