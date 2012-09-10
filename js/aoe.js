@@ -18,20 +18,28 @@ myApp.Calculator = function () {
 	self.frequency = ko.observable();
 	self.deductionOptions = [1,2];
 	self.deductions = ko.observable();
+	self.boundaries = ko.observableArray([]);
 
 	//outputs
 	self.firstDeduction = ko.observable(0);
 	self.firstDeductionOut = ko.computed(function(){
-		return (self.firstDeduction()) ? self.firstDeduction().toFixed(2) : 0;
+		return self.firstDeduction().toFixed(2);
 	},self);
 	self.secondDeduction = ko.observable(0);
 	self.secondDeductionOut = ko.computed(function(){
-		return (self.secondDeduction()) ? self.secondDeduction().toFixed(2) : 0;
+		return self.secondDeduction().toFixed(2);
 	},self);
 	self.totalDeduction = ko.computed(function(){
-		return (self.firstDeduction() +  (self.secondDeduction() || 0)).toFixed(2);
+		return (self.firstDeduction() + (self.secondDeduction() || 0)).toFixed(2);
+	},self);
+	self.minDeduction = ko.computed(function(){
+		return (self.boundaries().length > 0) ? self.boundaries()[0].max : 0;
+	},self);
+	self.minDeductionOut = ko.computed(function(){
+		return self.minDeduction().toFixed(2);
 	},self);
 	self.showResult = ko.observable(false);
+	self.noResult = ko.observable(false);
 
 	//others
 	self.twoDeductions = ko.computed(function(){
@@ -50,11 +58,13 @@ myApp.Calculator = function () {
 
 	self.calcPercent = function (amount,freq) {
 		if (freq === "Weekly") {
-			self.highBoundary = self.isHighBoundary(amount,wkBoundaries);
-			return self.getPercent(0, amount, wkBoundaries);
+			self.boundaries(wkBoundaries);
+			self.highBoundary = self.isHighBoundary(amount,self.boundaries());
+			return self.getPercent(0, amount, self.boundaries());
 		} else if (freq === "Monthly") {
-			self.highBoundary = self.isHighBoundary(amount,mthBoundaries);
-			return self.getPercent(0, amount, mthBoundaries);
+			self.boundaries(mthBoundaries);
+			self.highBoundary = self.isHighBoundary(amount,self.boundaries());
+			return self.getPercent(0, amount, self.boundaries());
 		}
 	};
 
@@ -63,9 +73,9 @@ myApp.Calculator = function () {
 		return (amount / 100) * self.percent;
 	};
 
-	self.calcHighBoundary = function (amount) {
-		var first = (amount / 100) * self.percent,
-			second = (amount - first) * 0.5;
+	self.calcHighBoundary = function (amount,boundaries) {
+		var first = (self.boundaries()[self.boundaries().length-1].min / 100) * self.percent,
+			second = (amount - self.boundaries()[self.boundaries().length-1].min) * 0.5;
 		return first + second;
 	};
 
@@ -87,37 +97,45 @@ myApp.Calculator = function () {
 			firstDeduction = 0,
 			secondDeduction = 0,
 			remainder = 0;
+
 		if(wages !== undefined && freq !== undefined){
-			amount = parseInt(wages.replace("£",""),10);
+			amount = parseInt(wages.replace('£',""));
+			self.wages(amount);
 			if(isNaN(amount)){
 				self.wages(undefined);
 			} else{
+				//set the percentage
 				self.percent = self.calcPercent(amount,freq) || 0;
-
-				if(two){
-					firstDeduction = self.getDeduction(amount);
-					remainder = amount - firstDeduction;
-					self.percent = self.calcPercent(remainder,freq) || 0;
-					secondDeduction = self.getDeduction(remainder);
+				if(amount < self.minDeduction()){
+					self.noResult(true);
 				} else{
-					firstDeduction = self.getDeduction(amount);
-				}
-				self.firstDeduction(firstDeduction || 0);
-				self.secondDeduction(secondDeduction || 0);
-				self.showResult(((self.totalDeduction() > 0 && self.wages() > 0 && self.deductions() > 0) ? true : false));
-			}
-			
+					//if two deductions, run this version
+					if(two){
+						firstDeduction = self.getDeduction(amount);
+						remainder = amount - firstDeduction;
+						self.percent = self.calcPercent(remainder,freq) || 0;
+						secondDeduction = self.getDeduction(remainder);
+					} else{
+						firstDeduction = self.getDeduction(amount);
+					}
+					self.firstDeduction(firstDeduction || 0);
+					self.secondDeduction(secondDeduction || 0);
+					self.showResult(((self.totalDeduction() > 0 && self.wages() > 0 && self.deductions() > 0) ? true : false));
 
+				}
+				
+			}
 		} 		
 	};
 
 	self.reset = function(){
 		self.showResult(false);
+		self.noResult(false);
 		self.wages(undefined);
 		self.frequency(undefined);
 		self.deductions(undefined);
-		self.firstDeduction(undefined)
-		self.secondDeduction(undefined);
+		self.firstDeduction(0);
+		self.secondDeduction(0);
 	};
 
 
