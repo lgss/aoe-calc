@@ -91,7 +91,7 @@ section {
 -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 
-html{overflow-y:scroll;background:#fff;}
+html{overflow-y:scroll; overflow-x:hidden; background:#fff;}
 body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; color:#282828; padding:1em;}
 
 /*links*/
@@ -275,3 +275,63 @@ input[type="submit"] {
 .result-data .button, .result-data p{
   margin-bottom:1em;
 }
+
+@media screen and (max-width: 520px) {
+  form fieldset label {
+    display: block;
+    float: none;
+    width: auto;
+    margin: 0 0 5px 0;
+    }
+  form fieldset select{
+    width:100%;
+  }
+  form fieldset.form-actions,
+  form fieldset.check,
+  form fieldset.radio ul,
+  form fieldset p.form-help {
+    margin-left: 0;
+    padding-left: 0;
+    }
+  form fieldset input.form-text,
+  form fieldset textarea {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+    .button{
+      margin-left:25%;
+      min-width:50%;
+    }
+  }
+
+/*NBC Styling*/
+.red {
+  background: rgb(165,36,73); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(165,36,73,1) 30%, rgba(108,10,43,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,rgba(165,36,73,1)), color-stop(100%,rgba(108,10,43,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(165,36,73,1) 30%,rgba(108,10,43,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(165,36,73,1) 30%,rgba(108,10,43,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(165,36,73,1) 30%,rgba(108,10,43,1) 100%); /* IE10+ */
+  background: linear-gradient(top, rgba(165,36,73,1) 30%,rgba(108,10,43,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a52449', endColorstr='#6c0a2b',GradientType=0 ); /* IE6-9 */
+}
+
+.button{
+padding: 6px 10% ; 
+-webkit-border-radius: 8px; 
+-moz-border-radius: 8px; 
+border-radius: 8px; margin-bottom: 10px; 
+font-size: 1em; 
+text-shadow: 0px -2px 0px #8f1e20; 
+margin: 10px 0 15px 0; 
+display: block; 
+width: auto; 
+text-decoration: none;  
+font-weight: bold; 
+border: 1px solid #AA1E48; 
+box-shadow: inset 1px 1px 1px #ec6369;}
+
+.button:link, .button:visited {display: block; width: 86%; max-width: 250px; margin: 10px auto 15px; padding: 10px 7%; color: #FFFFFF; }
+.button:hover, .button:active { text-shadow: 0px -2px 0px #8f1e20; padding: 11px 7% 9px 7%;}
