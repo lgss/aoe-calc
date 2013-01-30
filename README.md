@@ -14,6 +14,6 @@ Please contribute if you can refactor the .js into more simple code.
 
 Now being used by:
 
-[Northampton Borough Council](http://www.northampton.gov.uk/info/200028/council_tax/996/council_tax_attachment_of_earnings)
-[Vale of Glamorgan Council](http://www.valeofglamorgan.gov.uk/our_council/council_tax/attachment_of_earnings.aspx)
+- [Northampton Borough Council](http://www.northampton.gov.uk/info/200028/council_tax/996/council_tax_attachment_of_earnings)
+- [Vale of Glamorgan Council](http://www.valeofglamorgan.gov.uk/our_council/council_tax/attachment_of_earnings.aspx)
 
